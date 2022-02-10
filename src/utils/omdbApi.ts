@@ -15,9 +15,7 @@ export const searchMovies = async (keyword: string): Promise<SearchResults> => {
         searchedKeyword: keyword,
       };
     })
-    .catch((error) => {
-      return error;
-    });
+    .catch((error) => handleError(error));
 };
 
 export const searchPage = async (
@@ -32,9 +30,7 @@ export const searchPage = async (
         nextPageIndex: computePage(page, response.data.totalResults),
       };
     })
-    .catch((error) => {
-      return error;
-    });
+    .catch((error) => handleError(error));
 };
 
 export const getMovieData = async (imdbID: string): Promise<MovieDetails> => {
@@ -43,9 +39,7 @@ export const getMovieData = async (imdbID: string): Promise<MovieDetails> => {
     .then(function (response: any) {
       return processDetailResponse(response);
     })
-    .catch((error) => {
-      return error;
-    });
+    .catch((error) => handleError(error));
 };
 
 function processSearchResponse(response: any): MovieData[] {
@@ -81,4 +75,18 @@ function processDetailResponse(response: any): MovieDetails {
 
 function computePage(currentPage: number, resultAmount: number): number {
   return resultAmount - currentPage * 10 > 0 ? currentPage + 1 : 0;
+}
+
+function handleError(error: any) {
+  if (error.response) {
+    console.log(error.response.data);
+    console.log(error.response.status);
+    console.log(error.response.headers);
+  } else if (error.request) {
+    console.log(error.request);
+  } else {
+    console.log("Error", error.message);
+  }
+  console.log(error.config);
+  return Promise.reject(error);
 }

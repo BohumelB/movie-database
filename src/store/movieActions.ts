@@ -1,42 +1,23 @@
-import { MovieData, SearchResults } from "../utils/types";
+import { createAction } from "@reduxjs/toolkit";
 
-export const GET_MOVIE_DETAIL_SAGA = "GET_MOVIE_DETAIL_SAGA";
-export const STORE_MOVIE_DETAIL_REDUCER = "STORE_MOVIE_DETAIL_REDUCER";
-export const SEARCH_MOVIE_SAGA = "SEARCH_MOVIE_SAGA";
-export const REPLACE_SEARCH_RESULTS_REDUCER = "REPLACE_SEARCH_RESULTS_REDUCER";
-export const SEARCH_PAGE_SAGA = "SEARCH_PAGE_SAGA";
-export const ADD_SEARCH_RESULTS_REDUCER = "ADD_SEARCH_RESULTS_REDUCER";
-export const UPDATE_FAVORITE_MOVIES_REDUCER = "UPDATE_FAVORITE_MOVIES_REDUCER";
-export const CHANGE_KEYWORD = "CHANGE_KEYWORD";
+import { MovieData, MovieDetails, SearchResults } from "../utils/types";
 
-export function getMovieData(movieName: string) {
-  return { type: GET_MOVIE_DETAIL_SAGA, payload: movieName };
-}
-
-export function storeMovieData(movieData: MovieData) {
-  return { type: STORE_MOVIE_DETAIL_REDUCER, payload: movieData };
-}
-
-export function searchMovie(movieName: string) {
-  return { type: SEARCH_MOVIE_SAGA, payload: movieName };
-}
-
-export function replaceSearchResults(searchResults: SearchResults) {
-  return { type: REPLACE_SEARCH_RESULTS_REDUCER, payload: searchResults };
-}
-
-export function searchPage(movieName: string, page: number) {
-  return { type: SEARCH_PAGE_SAGA, payload: { movieName, page } };
-}
-
-export function addSearchResults(searchResults: SearchResults) {
-  return { type: ADD_SEARCH_RESULTS_REDUCER, payload: searchResults };
-}
-
-export function updateFavoriteMovies(favoriteMovies: MovieData[]) {
-  return { type: UPDATE_FAVORITE_MOVIES_REDUCER, payload: favoriteMovies };
-}
-
-export function changeKeyword(keyword: string) {
-  return { type: CHANGE_KEYWORD, payload: keyword };
-}
+export const getMovieDetailSaga = createAction<string>("GET_MOVIE_DETAIL_SAGA");
+export const storeMovieDetailReducer = createAction<MovieDetails>(
+  "STORE_MOVIE_DETAIL_REDUCER"
+);
+export const searchMovieSaga = createAction<string>("SEARCH_MOVIE_SAGA");
+export const replaceSearchResultsReducer = createAction<SearchResults>(
+  "REPLACE_SEARCH_RESULTS_REDUCER"
+);
+export const searchPageSaga =
+  createAction<{ movieName: string; page: number }>("SEARCH_PAGE_SAGA");
+export const addSearchResultsReducer = createAction<SearchResults>(
+  "ADD_SEARCH_RESULTS_REDUCER"
+);
+export const updateFavoriteMoviesReducer = createAction<MovieData[]>(
+  "UPDATE_FAVORITE_MOVIES_REDUCER"
+);
+export const changeKeywordReducer = createAction<string>(
+  "CHANGE_KEYWORD_REDUCER"
+);

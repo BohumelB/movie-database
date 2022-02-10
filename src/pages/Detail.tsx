@@ -7,7 +7,10 @@ import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { yellow } from "@mui/material/colors";
 
-import { getMovieData, updateFavoriteMovies } from "../store/movieActions";
+import {
+  getMovieDetailSaga,
+  updateFavoriteMoviesReducer,
+} from "../store/movieActions";
 import { MovieDatabaseState } from "../store/movieReducer";
 import {
   addToFavorites,
@@ -32,8 +35,8 @@ function Detail() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getMovieData(imdbID));
-    dispatch(updateFavoriteMovies(getFavorites()));
+    dispatch(getMovieDetailSaga(imdbID));
+    dispatch(updateFavoriteMoviesReducer(getFavorites()));
   }, []);
 
   return movie ? (
@@ -56,7 +59,7 @@ function Detail() {
               sx={{ color: yellow[500], p: "10px", alignSelf: "center" }}
               onClick={() => {
                 removeFromFavorites(movie);
-                dispatch(updateFavoriteMovies(getFavorites()));
+                dispatch(updateFavoriteMoviesReducer(getFavorites()));
               }}
             >
               <StarIcon />
@@ -67,7 +70,7 @@ function Detail() {
               sx={{ color: yellow[500], p: "10px", alignSelf: "center" }}
               onClick={() => {
                 addToFavorites(movie);
-                dispatch(updateFavoriteMovies(getFavorites()));
+                dispatch(updateFavoriteMoviesReducer(getFavorites()));
               }}
             >
               <StarBorderIcon />

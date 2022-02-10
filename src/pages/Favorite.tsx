@@ -13,7 +13,7 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import { yellow } from "@mui/material/colors";
 
-import { updateFavoriteMovies } from "../store/movieActions";
+import { updateFavoriteMoviesReducer } from "../store/movieActions";
 import { MovieDatabaseState } from "../store/movieReducer";
 import {
   getFavorites,
@@ -84,7 +84,7 @@ const mapStateToProps = (state: MovieDatabaseState) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     updateFavoriteMovies: (favoriteMovies: MovieData[]) =>
-      dispatch(updateFavoriteMovies(favoriteMovies)),
+      dispatch(updateFavoriteMoviesReducer(favoriteMovies)),
   };
 };
 

@@ -1,11 +1,12 @@
 import {
-  REPLACE_SEARCH_RESULTS_REDUCER,
-  ADD_SEARCH_RESULTS_REDUCER,
-  STORE_MOVIE_DETAIL_REDUCER,
-  CHANGE_KEYWORD,
-  UPDATE_FAVORITE_MOVIES_REDUCER,
+  addSearchResultsReducer,
+  changeKeywordReducer,
+  replaceSearchResultsReducer,
+  storeMovieDetailReducer,
+  updateFavoriteMoviesReducer,
 } from "./movieActions";
 import { MovieData, MovieDetails } from "../utils/types";
+import { createReducer } from "@reduxjs/toolkit";
 
 export type MovieDatabaseState = {
   favoriteMovies: MovieData[];
@@ -41,46 +42,47 @@ const initialState: MovieDatabaseState = {
   },
 };
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default function (
-  state: MovieDatabaseState = initialState,
-  action: any
-) {
-  switch (action.type) {
-    case STORE_MOVIE_DETAIL_REDUCER: {
+const SearchReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(storeMovieDetailReducer, (state, { payload: movieData }) => {
       return {
         ...state,
-        movieDetails: action.payload,
+        movieDetails: movieData,
       };
-    }
-    case REPLACE_SEARCH_RESULTS_REDUCER: {
+    })
+    .addCase(
+      replaceSearchResultsReducer,
+      (state, { payload: searchResults }) => {
+        return {
+          ...state,
+          loadedMovies: searchResults.movies,
+          nextPageIndex: searchResults.nextPageIndex,
+          lastSearched: searchResults.searchedKeyword || "",
+        };
+      }
+    )
+    .addCase(addSearchResultsReducer, (state, { payload: searchResults }) => {
       return {
         ...state,
-        loadedMovies: action.payload.movies,
-        nextPageIndex: action.payload.nextPageIndex,
-        lastSearched: action.payload.searchedKeyword,
+        loadedMovies: state.loadedMovies.concat(searchResults.movies),
+        nextPageIndex: searchResults.nextPageIndex,
       };
-    }
-    case ADD_SEARCH_RESULTS_REDUCER: {
+    })
+    .addCase(
+      updateFavoriteMoviesReducer,
+      (state, { payload: favoriteMovies }) => {
+        return {
+          ...state,
+          favoriteMovies,
+        };
+      }
+    )
+    .addCase(changeKeywordReducer, (state, { payload: keyword }) => {
       return {
         ...state,
-        loadedMovies: state.loadedMovies.concat(action.payload.movies),
-        nextPageIndex: action.payload.nextPageIndex,
+        keyword,
       };
-    }
-    case UPDATE_FAVORITE_MOVIES_REDUCER: {
-      return {
-        ...state,
-        favoriteMovies: action.payload,
-      };
-    }
-    case CHANGE_KEYWORD: {
-      return {
-        ...state,
-        keyword: action.payload,
-      };
-    }
-    default:
-      return state;
-  }
-}
+    });
+});
+
+export default SearchReducer;

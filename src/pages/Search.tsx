@@ -17,7 +17,11 @@ import StarIcon from "@mui/icons-material/Star";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { yellow } from "@mui/material/colors";
 
-import { changeKeyword, searchMovie, searchPage } from "../store/movieActions";
+import {
+  changeKeywordReducer,
+  searchMovieSaga,
+  searchPageSaga,
+} from "../store/movieActions";
 import { MovieDatabaseState } from "../store/movieReducer";
 import { MovieData } from "../utils/types";
 
@@ -124,10 +128,10 @@ const mapStateToProps = (state: MovieDatabaseState) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    searchMovie: (movie: string) => dispatch(searchMovie(movie)),
+    searchMovie: (movie: string) => dispatch(searchMovieSaga(movie)),
     searchPage: (movie: string, page: number) =>
-      dispatch(searchPage(movie, page)),
-    changeKeyword: (keyword: string) => dispatch(changeKeyword(keyword)),
+      dispatch(searchPageSaga({ movieName: movie, page })),
+    changeKeyword: (keyword: string) => dispatch(changeKeywordReducer(keyword)),
   };
 };
 
